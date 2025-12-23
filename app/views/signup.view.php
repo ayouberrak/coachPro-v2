@@ -496,7 +496,7 @@
                 </form>
                 
                 <div class="form-footer">
-                    <p>Déjà un compte? <a href="../controllers/logincontoleur.php">Se connecter</a></p>
+                    <p>Déjà un compte? <a href="../controlleur/login.controleur.php">Se connecter</a></p>
                 </div>
             </div>
         </div>

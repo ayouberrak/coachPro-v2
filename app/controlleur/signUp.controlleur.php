@@ -55,7 +55,7 @@ class SignUp_controlleur{
             $coach->setCertif($method['certification']);
             $coach->setRole(2);
             if($coach->addCoach()){
-                header("Location: signUp.controlleur.php?add_coach=yes");
+                header("Location: login.controleur.php?add_coach=yes");
             }
         }elseif($roleV == 1){
             $sportif = new Sportif($this->conn);
@@ -67,7 +67,7 @@ class SignUp_controlleur{
             $sportif->setRole(1);
 
             if($sportif->addClient()){
-                header("Location: signUp.controlleur.php?add_clienaddCoacht=yes");
+                header("Location: login.controleur.php?add_clienaddCoacht=yes");
             }
         }
     }
@@ -81,10 +81,8 @@ $res = new SignUp_controlleur($dbb);
 
 $reslt=$res->getrole();
 
-$signUp = new SignUp_controlleur($dbb);
-
 if($_SERVER['REQUEST_METHOD']=== "POST"){
-    $signUp->register($_POST);
+    $res->register($_POST);
 }
 
 require_once __DIR__ . '/../views/signup.view.php';

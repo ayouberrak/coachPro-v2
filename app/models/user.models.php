@@ -7,7 +7,7 @@ class User{
     private string $prenom;
     private string $email;
     private string $pass;
-    private int $role;
+    public int $role;
 
     // constructor
     public function __construct(PDO $db) {
@@ -75,6 +75,9 @@ class User{
         ]);
         $user = $res->fetch(PDO::FETCH_ASSOC);
         if($user && password_verify($pass,$user['password'])){
+            $this->id = (int)$user['id'];
+            $this->role = (int)$user['id_role'];
+            $this->email = $user['email'];
             return $user;
         }
         return false;
