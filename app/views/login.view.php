@@ -355,7 +355,7 @@
                 </form>
                 
                 <div class="form-footer">
-                    <p>Pas encore de compte? <a href="../controllers/signupControllers.php">S'inscrire</a></p>
+                    <p>Pas encore de compte? <a href="../controllers/signUp.controlleur.php">S'inscrire</a></p>
                 </div>
             </div>
         </div>

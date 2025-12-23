@@ -18,10 +18,10 @@ class Login_controleur{
 
         if($user->LoginUser($method['email'],$method['password'])){
             if($user->role == 1){
-                header('Location: dashobrd_client.php?valid=yes');
+                header('Location: client_dash.controleur.php?valid=yes');
                 exit;
             }elseif($user->role == 2){
-                header('Location: dashobrd_coach.php?valid=yes');
+                header('Location: coach_dash.controleur.php?valid=yes');
                 exit;
             }
         }
