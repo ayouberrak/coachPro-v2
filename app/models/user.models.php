@@ -80,7 +80,7 @@ class User{
             $this->email = $user['email'];
             return $user;
         }
-        return false;
+        return null;
     }
 
 }

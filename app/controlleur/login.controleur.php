@@ -16,9 +16,13 @@ class Login_controleur{
     public function login(array $method){
         $user = new User($this->conn);
 
-        if($user->LoginUser($method['email'],$method['password'])){
+        if($userFetch = $user->LoginUser($method['email'],$method['password'])){
             session_start();
-            // $_SESSION['id']= ;
+            $_SESSION['user_id'] = $userFetch['id'];
+            $_SESSION['user_name'] = $userFetch['nom'];
+            $_SESSION['user_role'] = $userFetch['id_role'];
+
+
             if($user->role == 1){
                 header('Location: client_dash.controleur.php?valid=yes');
                 exit;

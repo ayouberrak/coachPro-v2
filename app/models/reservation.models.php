@@ -1,0 +1,126 @@
+<?php
+require_once __DIR__ . '/../config/config.php';
+
+class Reservation_models
+{
+    private PDO $conn;
+    private string $tableS  ='seances';
+    private  $debut;
+    private int $duree;
+    private int $id_client;
+    private int $id_status;
+    private int $id_coach;
+    private int $id_sport;
+
+    private  $date_seances;
+
+    // Getter & Setter for debut
+    public function getDebut()
+    {
+        return $this->debut;
+    }
+
+    public function setDebut($debut)
+    {
+        $this->debut = $debut;
+    }
+
+    // Getter & Setter for duree
+    public function getDuree()
+    {
+        return $this->duree;
+    }
+
+    public function setDuree(int $duree)
+    {
+        $this->duree = $duree;
+    }
+
+    // Getter & Setter for id_client
+    public function getIdClient()
+    {
+        return $this->id_client;
+    }
+
+    public function setIdClient(int $id_client)
+    {
+        $this->id_client = $id_client;
+    }
+
+    // Getter & Setter for id_status
+    public function getIdStatus()
+    {
+        return $this->id_status;
+    }
+
+    public function setIdStatus(int $id_status)
+    {
+        $this->id_status = $id_status;
+    }
+
+    // Getter & Setter for id_coach
+    public function getIdCoach()
+    {
+        return $this->id_coach;
+    }
+
+    public function setIdCoach(int $id_coach)
+    {
+        $this->id_coach = $id_coach;
+    }
+
+    // Getter & Setter for id_sport
+    public function getIdSport()
+    {
+        return $this->id_sport;
+    }
+
+    public function setIdSport(int $id_sport)
+    {
+        $this->id_sport = $id_sport;
+    }
+
+    // Getter & Setter for Date Seances
+
+    public function getDateSeances()
+    {
+        return $this->date_seances;
+    }
+
+    public function setDateSeances( $date_seances)
+    {
+        $this->date_seances = $date_seances;
+        return $this;
+    }
+
+
+    public function __construct($db) {
+        $this->conn = $db;
+    }
+
+    public function insertSeances(){
+        $sql = "INSERT INTO {$this->tableS}(debut,duree,id_client,id_coach,id_status,id_sport,date_seances)
+                VALUES(:debut,:duree,:id_client,:id_coach,:id_status,:id_sport,:date_seances)";
+        $res = $this->conn->prepare($sql);
+        return $res->execute([
+            'debut'=>$this->debut,
+            'duree'=>$this->duree,
+            'id_client'=>$this->id_client,
+            'id_coach'=>$this->id_coach,
+            'id_status'=>$this->id_status,
+            'id_sport'=>$this->id_sport,
+            'date_seances'=>$this->date_seances
+        ]);
+    }
+    public function getSeancesByClient($id_client){
+        $sql = "SELECT CONCAT(u.nom,' ',u.prenom) AS fullname , s.* , st.type_status, st.style, sp.type FROM seances s 
+                INNER JOIN user u ON u.id = s.id_coach INNER JOIN status st ON st.id_status = s.id_status 
+                INNER JOIN sport sp ON sp.id_sport = s.id_sport WHERE s.id_client=:id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'id'=>$id_client
+        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+}

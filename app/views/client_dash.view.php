@@ -157,6 +157,7 @@
 </head>
 <body>
 
+
     <nav class="navbar-minimal">
         <div class="logo"><span>FIT</span>COACH</div>
         <div style="display: flex; gap: 25px; font-size: 0.85rem;">
@@ -164,6 +165,7 @@
             <a href="#" style="color: var(--text-muted); text-decoration: none;">Mes Séances</a>
         </div>
     </nav>
+    
 
     <div class="body-overlay" id="overlay"></div>
 
@@ -187,6 +189,7 @@
         <div class="page-header">
             <p style="color: var(--primary-accent); font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; margin-bottom: 10px;">PREMIUM COACHING</p>
             <h1>Élite <span class="accent-text">Network</span></h1>
+
         </div>
 
         <div class="coaches-grid">

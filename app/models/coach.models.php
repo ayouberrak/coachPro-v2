@@ -61,4 +61,13 @@ class Coach extends User{
         $res->execute();
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getAllCoachById($id){
+        $sql = "SELECT CONCAT(u.nom,' ',u.prenom) as fullname , co.*  FROM user u inner JOIN {$this->tableCoach} co ON u.id = co.id_coach where u.id = :id";
+        $res = $this->conn->prepare($sql);
+        $res->execute([
+            'id'=>$id
+        ]);
+        return $res->fetch(PDO::FETCH_ASSOC);
+    }
+
 }
