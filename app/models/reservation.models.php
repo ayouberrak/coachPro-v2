@@ -113,14 +113,25 @@ class Reservation_models
         ]);
     }
     public function getSeancesByClient($id_client){
-        $sql = "SELECT CONCAT(u.nom,' ',u.prenom) AS fullname , s.* , st.type_status, st.style, sp.type FROM seances s 
-                INNER JOIN user u ON u.id = s.id_coach INNER JOIN status st ON st.id_status = s.id_status 
-                INNER JOIN sport sp ON sp.id_sport = s.id_sport WHERE s.id_client=:id";
+        $sql = "SELECT CONCAT(u.nom,' ',u.prenom) AS fullname,c.* , s.* , st.type_status, st.style, sp.type FROM seances s 
+                INNER JOIN user u ON u.id = s.id_coach 
+                INNER JOIN status st ON st.id_status = s.id_status 
+                INNER JOIN sport sp ON sp.id_sport = s.id_sport 
+                INNER JOIN coach c ON c.id_coach=u.id  WHERE s.id_client=:id";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([
             'id'=>$id_client
         ]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function anulleSeances($status,$id_secances) {
+        $sql = "UPDATE seances SET id_status = :status where id_secances =:id_secances";
+        $res = $this->conn ->prepare($sql);
+        return $res->execute([
+            'status'=>$status,
+            'id_secances'=>$id_secances
+        ]);
     }
 
 }
