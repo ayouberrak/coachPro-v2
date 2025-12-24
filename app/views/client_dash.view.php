@@ -208,7 +208,7 @@
                                 <span>🛡️</span> <?= $ress['certification'] ?>
                             </div>
                         </div>
-                        <a href="reservation.php?id=<?= $ress['id_coach'] ?>" class="btn-reserve">Réserver une séance</a>
+                        <a href="reservation.controleur.php?id=<?= $ress['id_coach'] ?>" class="btn-reserve">Réserver une séance</a>
                     </div>
                 </div>
             <?php } ?>

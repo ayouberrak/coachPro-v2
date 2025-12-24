@@ -17,6 +17,8 @@ class Login_controleur{
         $user = new User($this->conn);
 
         if($user->LoginUser($method['email'],$method['password'])){
+            session_start();
+            // $_SESSION['id']= ;
             if($user->role == 1){
                 header('Location: client_dash.controleur.php?valid=yes');
                 exit;
