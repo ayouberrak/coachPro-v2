@@ -90,7 +90,6 @@ class Reservation_models
     public function setDateSeances( $date_seances)
     {
         $this->date_seances = $date_seances;
-        return $this;
     }
 
 
@@ -134,4 +133,94 @@ class Reservation_models
         ]);
     }
 
+    public function updateSeances($id_seances){
+        $sql = "UPDATE {$this->tableS} 
+                    SET debut = :debut,
+                     duree = :duree,
+                     id_sport = :id_sport,
+                     date_seances = :date_S
+                    where id_secances = :id";
+        $res= $this->conn->prepare($sql);
+        return $res->execute([
+                'debut'=>$this->debut,
+                'duree'=>$this->duree,
+                'id_sport'=>$this->id_sport,
+                'date_S'=>$this->date_seances,
+         
+                'id'=>$id_seances
+            ]);
+    }
+    public function getSeanceById($id_secances){
+        $sql = "SELECT s.* , sp.type , concat(c.nom,c.prenom) as fullname,co.*  FROM seances s 
+                INNER JOIN sport sp ON sp.id_sport = s.id_sport  
+                INNER JOIN user c ON c.id = s.id_coach
+                INNER JOIN coach co ON c.id = co.id_coach
+                WHERE id_secances = :id_secances";
+        $res = $this->conn->prepare($sql);
+        $res->execute([
+            'id_secances'=>$id_secances
+        ]);
+        return $res->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getTousSeancesPourCoach($id_coach){
+        $sql = "SELECT CONCAT(u.nom,' ',u.prenom) as fulnameClient ,
+                CONCAT(s.date_seances,' ',s.debut) as dateandtime,s.duree ,
+                sp.type , st.type_status , st.style  From user u 
+                INNER JOIN seances s ON s.id_client = u.id
+                INNER JOIN sport sp ON sp.id_sport = s.id_sport
+                INNER JOIN status st ON st.id_status = s.id_status
+                WHERE  s.id_coach =:id ";
+        $res = $this->conn->prepare($sql);
+        $res->execute([
+            'id'=>$id_coach,
+        ]);
+        return $res->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getseancesEnatt($id_coach , $ids){
+        $sql = "SELECT CONCAT(u.nom,' ',u.prenom) as fulnameClient ,
+                CONCAT(s.date_seances,' ',s.debut) as dateandtime,s.id_secances, 
+                sp.type , st.type_status  From user u 
+                INNER JOIN seances s ON s.id_client = u.id
+                INNER JOIN sport sp ON sp.id_sport = s.id_sport
+                INNER JOIN status st ON st.id_status = s.id_status
+                WHERE s.id_status = :idS and s.id_coach =:id ";
+        $res = $this->conn->prepare($sql);
+        $res->execute([
+            'id'=>$id_coach,
+            'idS'=>$ids
+        ]);
+        return $res->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function updateStatusSeances($id_secances,$status){
+        $sql = "UPDATE seances SET id_status = :status where id_secances =:id_secances";
+        $res =$this->conn->prepare($sql);
+        return $res->execute([
+            'status'=>$status,
+            'id_secances'=>$id_secances
+        ]);
+    }
+
+    public function updateAllSeancesTerminer(){
+        $sql = "
+            UPDATE seances 
+            SET id_status = 8 
+            WHERE date_seances <= NOW()
+            AND id_status != 8
+        ";
+
+        $rtes= $this->conn->prepare($sql);
+        return $rtes->execute();
+    }
+    public function updateSeancesEnattente($id_secances){
+        $sql = "UPDATE seances SET id_status = 9 where id_secances =:id_secances AND id_status = 5";
+        $res = $this->conn->prepare($sql);
+        return $res->execute([
+            'id_secances'=>$id_secances
+        ]);
+    }
+
+
+
+    
 }

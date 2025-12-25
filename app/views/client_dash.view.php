@@ -5,191 +5,155 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitCoach - Explorez l'Élite</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --primary-accent: #1ed760; 
+            --primary: #1ed760; 
             --bg-body: #080808; 
             --sidebar-bg: rgba(15, 15, 15, 0.98);
             --card-bg: #111111; 
             --text-white: #ffffff;
             --text-muted: #888888;
-            --border-subtle: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-white);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-body); color: var(--text-white); line-height: 1.6; overflow-x: hidden; }
 
-        /* --- Navbar Minimalist --- */
-        .navbar-minimal {
-            position: fixed;
-            top: 0; width: 100%;
-            padding: 20px 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(8, 8, 8, 0.8);
-            z-index: 1000;
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--border-subtle);
+        /* --- Navbar Upgrade --- */
+        .navbar {
+            position: fixed; top: 0; width: 100%; padding: 20px 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(8, 8, 8, 0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); z-index: 1000;
         }
+        .logo { font-size: 1.4rem; font-weight: 800; text-decoration: none; color: white; letter-spacing: -1px; }
+        .logo span { color: var(--primary); }
+        .nav-links { display: flex; gap: 30px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
+        .nav-links a.active { color: #fff; }
 
-        .logo { font-size: 1.2rem; font-weight: 800; letter-spacing: 1px; }
-        .logo span { color: var(--primary-accent); }
+        .logout-btn {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(255, 70, 70, 0.1); border: 1px solid rgba(255, 70, 70, 0.2);
+            padding: 8px 16px; border-radius: 12px; color: #ff4646 !important;
+            font-size: 0.75rem !important; font-weight: 700 !important;
+        }
+        .logout-btn:hover { background: rgba(255, 70, 70, 0.2); transform: translateY(-2px); }
 
         /* --- Sidebar & Filter --- */
         .sidebar {
-            position: fixed;
-            top: 0; left: -350px; 
-            width: 320px; height: 100vh;
-            background: var(--sidebar-bg);
-            z-index: 2000;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            padding: 100px 30px;
-            border-right: 1px solid var(--border-subtle);
+            position: fixed; top: 0; left: -350px; width: 320px; height: 100vh;
+            background: var(--sidebar-bg); z-index: 2000; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 100px 30px; border-right: 1px solid var(--border);
         }
-
-        .sidebar.active { left: 0; box-shadow: 20px 0 40px rgba(0,0,0,0.6); }
-
+        .sidebar.active { left: 0; }
         .filter-trigger {
-            position: fixed; bottom: 40px; right: 40px;
-            width: 55px; height: 55px;
-            background: var(--primary-accent);
-            border: none; border-radius: 18px;
-            cursor: pointer; z-index: 2100;
-            display: flex; align-items: center; justify-content: center;
-            transition: 0.3s;
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+            background: var(--primary); border: none; border-radius: 20px;
+            cursor: pointer; z-index: 2100; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 30px rgba(30, 215, 96, 0.3);
         }
-        .filter-trigger:hover { transform: scale(1.1) rotate(15deg); }
 
-        /* --- Main Content --- */
+        /* --- Grid Layout --- */
         .main-content { padding: 140px 8% 80px; }
-
         .page-header { margin-bottom: 50px; }
-        .page-header h1 { font-size: 3rem; font-weight: 800; letter-spacing: -1px; }
-        .accent-text { color: var(--primary-accent); }
+        .page-header h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: -2px; line-height: 1; }
+        .accent-text { color: var(--primary); }
 
-        /* --- Coach Cards --- */
         .coaches-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 35px;
         }
 
+        /* --- Elite Card Design --- */
         .coach-card {
-            background: var(--card-bg);
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid var(--border-subtle);
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--card-bg); border-radius: 30px; overflow: hidden;
+            border: 1px solid var(--border); transition: 0.4s; position: relative;
         }
-
-        .coach-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(30, 215, 96, 0.3);
-        }
-
-        .img-box { height: 360px; position: relative; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .coach-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        
+        .img-box { height: 400px; position: relative; overflow: hidden; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .coach-card:hover .img-box img { scale: 1.05; }
         
         .card-overlay {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            padding: 25px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.95));
+            position: absolute; bottom: 0; left: 0; right: 0; padding: 30px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
         }
 
         .experience-tag {
-            font-size: 0.65rem; font-weight: 700; color: var(--primary-accent);
-            text-transform: uppercase; letter-spacing: 2px;
-            display: block; margin-bottom: 5px;
+            background: rgba(30, 215, 96, 0.2); color: var(--primary);
+            padding: 4px 12px; border-radius: 8px; font-size: 0.65rem;
+            font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
         }
 
         .card-body { padding: 25px; }
-
         .certif-box {
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            padding: 12px 15px;
-            margin-bottom: 20px;
-            border: 1px dashed rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.03); border-radius: 15px;
+            padding: 15px; margin-bottom: 20px; border: 1px solid var(--border);
         }
-
-        .certif-label {
-            font-size: 0.6rem; color: var(--text-muted);
-            text-transform: uppercase; letter-spacing: 1px; display: block;
-        }
-
-        .certif-name {
-            font-size: 0.85rem; font-weight: 500; color: #eee;
-            display: flex; align-items: center; gap: 8px;
-        }
+        .certif-label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .certif-name { font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
 
         .btn-reserve {
-            width: 100%; background: var(--primary-accent); color: #000;
-            border: none; padding: 14px; border-radius: 12px;
-            font-weight: 700; cursor: pointer; transition: 0.3s;
+            width: 100%; background: var(--primary); color: #000;
+            border: none; padding: 16px; border-radius: 15px;
+            font-weight: 800; cursor: pointer; transition: 0.3s;
             text-decoration: none; display: block; text-align: center;
         }
-
-        .btn-reserve:hover { filter: brightness(1.1); transform: scale(1.02); }
-
-        .footer-elite {
-            padding: 40px 8%; border-top: 1px solid var(--border-subtle);
-            color: var(--text-muted); font-size: 0.75rem;
-            display: flex; justify-content: space-between;
-        }
+        .btn-reserve:hover { box-shadow: 0 10px 20px rgba(30, 215, 96, 0.2); }
 
         .body-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 1900;
-            display: none; backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+            z-index: 1900; display: none;
         }
         .body-overlay.active { display: block; }
 
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+        }
     </style>
 </head>
 <body>
 
-
-    <nav class="navbar-minimal">
-        <div class="logo"><span>FIT</span>COACH</div>
-        <div style="display: flex; gap: 25px; font-size: 0.85rem;">
-            <a href="#" style="color: #fff; text-decoration: none;">Explore</a>
-            <a href="#" style="color: var(--text-muted); text-decoration: none;">Mes Séances</a>
+    <nav class="navbar">
+        <a href="index.php" class="logo"><span>FIT</span>COACH</a>
+        <div class="nav-links">
+            <a href="client_dash.controleur.php" class="active">Explorer</a>
+            <a href="mes_seances.controleur.php">Mes Séances</a>
+            <a href="deconexion.controleur.php" class="logout-btn">
+                <i class="fa-solid fa-power-off"></i> <span>Déconnexion</span>
+            </a>
         </div>
     </nav>
-    
 
     <div class="body-overlay" id="overlay"></div>
 
     <aside class="sidebar" id="sidebar">
-        <h2 style="margin-bottom: 25px;">Filtres</h2>
-        <div style="margin-bottom: 20px;">
-            <label style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Discipline</label>
-            <select style="width: 100%; background: #222; border: none; padding: 12px; color: #fff; border-radius: 8px; margin-top: 8px;">
+        <h2 style="margin-bottom: 30px; font-weight: 800;">Filtres <span style="color:var(--primary);">Elite</span></h2>
+        <div style="margin-bottom: 25px;">
+            <label style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Spécialité</label>
+            <select style="width: 100%; background: #222; border: 1px solid var(--border); padding: 15px; color: #fff; border-radius: 12px; margin-top: 10px;">
                 <option>Musculation</option>
+                <option>Crossfit</option>
+                <option>Yoga</option>
                 <option>Cardio</option>
             </select>
         </div>
-        <button class="btn-reserve">Appliquer</button>
+        <button class="btn-reserve">Appliquer les Filtres</button>
     </aside>
 
     <button class="filter-trigger" id="toggleSidebar">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="2" y1="14" x2="6" y2="14"></line><line x1="10" y1="8" x2="14" y2="8"></line><line x1="18" y1="16" x2="22" y2="16"></line></svg>
+        <i class="fa-solid fa-sliders" style="font-size: 1.5rem;"></i>
     </button>
 
     <main class="main-content">
         <div class="page-header">
-            <p style="color: var(--primary-accent); font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; margin-bottom: 10px;">PREMIUM COACHING</p>
-            <h1>Élite <span class="accent-text">Network</span></h1>
-
+            <p style="color: var(--primary); font-size: 0.75rem; font-weight: 800; letter-spacing: 4px; margin-bottom: 10px; text-transform: uppercase;">The Network</p>
+            <h1>Élite <span class="accent-text">Performance</span></h1>
         </div>
 
         <div class="coaches-grid">
@@ -198,30 +162,36 @@
             ?>
                 <div class="coach-card">
                     <div class="img-box">
-                        <img src="<?= $pathPhoto ?>" alt="Coach">
+                        <img src="<?= $pathPhoto ?>" alt="Coach Profile">
                         <div class="card-overlay">
-                            <span class="experience-tag"><?= $ress['annees_experiance'] ?> Ans d'Expérience</span>
-                            <h3 style="font-size: 1.4rem; font-weight: 700;"><?= $ress['fullname'] ?></h3>
+                            <div style="margin-bottom: 10px;">
+                                <span class="experience-tag"><?= $ress['annees_experiance'] ?> Ans Exp.</span>
+                            </div>
+                            <h3 style="font-size: 1.6rem; font-weight: 800; line-height: 1.2;"><?= htmlspecialchars($ress['fullname']) ?></h3>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="certif-box">
-                            <span class="certif-label">Certification</span>
+                            <span class="certif-label">Certification Principale</span>
                             <div class="certif-name">
-                                <span>🛡️</span> <?= $ress['certification'] ?>
+                                <i class="fa-solid fa-certificate" style="color: var(--primary);"></i> 
+                                <?= htmlspecialchars($ress['certification']) ?>
                             </div>
                         </div>
-                        <a href="reservation.controleur.php?id=<?= $ress['id_coach'] ?>" class="btn-reserve">Réserver une séance</a>
+                        <a href="reservation.controleur.php?id=<?= $ress['id_coach'] ?>" class="btn-reserve">
+                            Voir le Profil <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>
+                        </a>
                     </div>
                 </div>
             <?php } ?>
         </div>
     </main>
 
-    <footer class="footer-elite">
-        <div>© 2025 FITCOACH ELITE</div>
-        <div style="display: flex; gap: 20px;">
-            <span>Confidentialité</span>
+    <footer style="padding: 60px 8% 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.8rem;">
+        <div>© 2025 FITCOACH ELITE SYNC.</div>
+        <div style="display: flex; gap: 30px;">
+            <span>Instagram</span>
+            <span>LinkedIn</span>
             <span>Support</span>
         </div>
     </footer>
