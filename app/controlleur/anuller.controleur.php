@@ -1,9 +1,12 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 require_once __DIR__ . '/../config/config.php';
-
 require_once __DIR__ . '/../models/reservation.models.php';
-
 
 class AnullerSeances_controleur{
     private PDO $conn;
@@ -11,20 +14,17 @@ class AnullerSeances_controleur{
     public function __construct(PDO $db) {
         $this->conn = $db;
     }
-
-
-    public function anullerSeances($id_status,$id_seances){
-        $annuler = new Reservation_models($this->conn);
-        $annuler->anulleSeances( $id_status, $id_seances);
+    public function refuserSeance($id_seances){
+        $refuser = new Reservation_models($this->conn);
+        $refuser->updateStatusSeances( $id_seances, 3);
     }
 }
+
 $db = new Connect();
 $dbb = $db->dbconnect();
-
 $ann = new AnullerSeances_controleur($dbb);
 $id_seances = $_GET['id'];
 
-$ann->anullerSeances(5,$id_seances);
-    header('Location: mes_seances.controleur.php?seances=canceled');
-    exit;
-
+$ann->refuserSeance($id_seances);
+header('Location: coach_dash.controleur.php?seance=refuser');
+exit;

@@ -173,7 +173,7 @@
                 <i class="fa-solid fa-user-gear"></i> <span>Mon Profil</span>
             </a>
         </nav>
-        <a href="../controllers/logoutContrelleur.php" class="nav-link logout-link">
+        <a href="../controlleur/deconexion.controleur.php" class="nav-link logout-link">
             <i class="fa-solid fa-power-off"></i> <span>Déconnexion</span>
         </a>
     </aside>
@@ -181,7 +181,7 @@
     <main class="main-content">
         <div class="top-header">
             <div class="welcome-msg">
-                <h1>Content de vous revoir, Coach <span><?= htmlspecialchars($nom) ?></span></h1>
+                <h1>Content de vous revoir, Coach <span><?= htmlspecialchars($_SESSION['user_name']) ?></span></h1>
             </div>
             <div class="digital-clock" id="clock">00:00:00</div>
         </div>
@@ -219,8 +219,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if(!empty($resutlt)): ?>
-                        <?php foreach($resutlt as $res): ?>
+                    <?php foreach($seancesEnatt as $res): ?>
+
                         <tr>
                             <td class="client-name"><?= $res['fulnameClient']?></td>
                             <td><span class="sport-badge"><?= $res['type']?></span></td>
@@ -229,19 +229,20 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="../controllers/accepteSeances.controleur.php?id=<?= $res['id_secances'] ?>" class="action-btn btn-check" title="Confirmer">
+                                    <a href="accepte.controleur.php?id=<?= $res['id_secances'] ?>" 
+                                    class="action-btn btn-check" title="Confirmer">
                                         <i class="fa-solid fa-check"></i>
                                     </a>
-                                    <a href="../controllers/refuseSeances.controleur.php?id=<?= $res['id_secances'] ?>" class="action-btn btn-x" title="Refuser">
+
+                                    <a href="anuller.controleur.php?id=<?= $res['id_secances'] ?>" 
+                                    class="action-btn btn-x" title="Refuser">
                                         <i class="fa-solid fa-xmark"></i>
                                     </a>
                                 </div>
                             </td>
                         </tr>
-                        <?php endforeach ?>
-                    <?php else: ?>
-                        <tr><td colspan="4" style="text-align:center; color: rgba(255,255,255,0.2); padding: 40px;">Aucune demande en attente.</td></tr>
-                    <?php endif; ?>
+                    <?php endforeach ?>
+
                 </tbody>
             </table>
         </div>
@@ -260,7 +261,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($resutltAcc as $ress): ?>
+                    <?php foreach($seancesConfirmer as $ress): ?>
                         <tr>
                             <td class="client-name"><?= $ress['fulnameClient']?></td>
                             <td><span class="sport-badge"><?= $ress['type']?></span></td>

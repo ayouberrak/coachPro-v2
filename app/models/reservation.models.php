@@ -204,9 +204,9 @@ class Reservation_models
     public function updateAllSeancesTerminer(){
         $sql = "
             UPDATE seances 
-            SET id_status = 8 
+            SET id_status = 4 
             WHERE date_seances <= NOW()
-            AND id_status != 8
+            AND id_status != 4
         ";
 
         $rtes= $this->conn->prepare($sql);
