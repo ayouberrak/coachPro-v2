@@ -32,7 +32,10 @@ LEFT JOIN reservations r ON r.seance_id = s.id
 GROUP BY c.discipline;
 
 -- challange 6
-SELECT u.nom , u.prenom , COUNT(u.nom) AS rese FROM users u INNER JOIN reservations r ON r.sportif_id = u.id INNER JOIN seances s ON s.id = r.seance_id 
-WHERE TIMESTAMPDIFF(HOUR, r.reserved_at, s.date_seance) < 24 GROUP BY u.nom;
+SELECT u.nom,u.prenom,COUNT(r.id) AS rese FROM users u
+JOIN reservations r ON r.sportif_id = u.id
+JOIN seances s ON s.id = r.seance_id
+GROUP BY  u.nom, u.prenom HAVING MAX(TIMESTAMPDIFF(HOUR,r.reserved_at,s.date_seance))<24;
+
 
 -- challange 7
