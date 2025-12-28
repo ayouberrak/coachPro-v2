@@ -39,3 +39,6 @@ GROUP BY  u.nom, u.prenom HAVING MAX(TIMESTAMPDIFF(HOUR,r.reserved_at,s.date_sea
 
 
 -- challange 7
+
+SELECT TIME_FORMAT(heure, '%H:00') AS plg, COUNT(*) AS nbr FROM seances WHERE statut = 'reservee' GROUP BY plg ORDER BY nbr DESC;
+
